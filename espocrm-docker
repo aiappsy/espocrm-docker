@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  espocrm:
+    build:
+      context: .
+      dockerfile: Dockerfile-debian.template
+    image: espocrm:latest
+    container_name: espocrm
+    environment:
+      - DB_HOST=mariadb
+      - DB_NAME=espocrm
+      - DB_USER=espocrm
+      - DB_PASSWORD=espocrm_password
+      - DB_DRIVER=mysql
+      - DEFAULT_LANGUAGE=en_US
+      - TIMEZONE=UTC
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
+    volumes:
+      - ./data:/var/www/html/data
+
+  mariadb:
+    image: mariadb:10.6
+    container_name: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=supersecret
+      - MYSQL_DATABASE=espocrm
+      - MYSQL_USER=espocrm
+      - MYSQL_PASSWORD=espocrm_password
+    volumes:
+      - ./db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
