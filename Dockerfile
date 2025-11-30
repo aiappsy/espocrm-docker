@@ -10,25 +10,24 @@ RUN a2enmod rewrite
 
 WORKDIR /var/www/html
 
-# Download and unpack EspoCRM release (adjust version if needed)
+# Download and unpack EspoCRM release
 RUN curl -fSL https://github.com/espocrm/espocrm/releases/download/9.2.5/EspoCRM-9.2.5.zip -o EspoCRM.zip && \
     unzip EspoCRM.zip -d /usr/src && \
     mv /usr/src/EspoCRM-9.2.5/* . && \
     rm -rf EspoCRM.zip /usr/src/EspoCRM-9.2.5
 
-# Fix permissions for data and app files
+# Fix permissions for files (during image build)
 RUN chown -R www-data:www-data /var/www/html && \
     find . -type f -exec chmod 644 {} \; && \
     find . -type d -exec chmod 755 {} \;
 
-# Persist data directories
+# Create persistent data subdirectories (still in image build)
 RUN mkdir -p ./data/upload ./data/logs ./data/cache
 
 # Add custom Apache config for EspoCRM
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
-# Fix permissions for mounted data directory every time the container boots
-CMD ["bash", "-c", "chown -R www-data:www-data /var/www/html/data && find /var/www/html/data -type d -exec chmod 775 {} + && apache2-foreground"]
 
 EXPOSE 80
 
-
+# THIS IS THE IMPORTANT FINAL LINE: Set correct permissions for data folder on every container start
+CMD ["bash", "-c", "chown -R www-data:www-data /var/www/html/data && find /var/www/html/data -type d -exec chmod 775 {} + && apache2-foreground"]
