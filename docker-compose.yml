@@ -3,7 +3,7 @@ services:
   espocrm:
     build:
       context: .
-      dockerfile: Dockerfile-debian.template
+      dockerfile: Dockerfile
     image: espocrm:latest
     container_name: espocrm
     environment:
