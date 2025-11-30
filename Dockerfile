@@ -28,3 +28,7 @@ RUN mkdir -p ./data/upload ./data/logs ./data/cache
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
+
+
+# Fix permissions for mounted data directory every time the container boots
+CMD ["bash", "-c", "chown -R www-data:www-data /var/www/html/data && find /var/www/html/data -type d -exec chmod 775 {} + && apache2-foreground"]
