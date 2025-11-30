@@ -15,7 +15,7 @@ services:
       - DEFAULT_LANGUAGE=en_US
       - TIMEZONE=UTC
     ports:
-      - "8090:80"
+      - "8090:80"  # Change 8090 if you want to use a different port!
     depends_on:
       - mariadb
     volumes:
