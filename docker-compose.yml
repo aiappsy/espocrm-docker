@@ -8,14 +8,14 @@ services:
       - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:8080"
-      - "--entrypoints.websecure.address=:8443"
+      - "--entrypoints.web.address=:18080"
+      - "--entrypoints.websecure.address=:18443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=crm@aiappsy.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
-      - "8080:8080"
-      - "8443:8443"
+      - "18080:18080"
+      - "18443:18443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - traefik_letsencrypt:/letsencrypt
@@ -37,7 +37,6 @@ services:
     volumes:
       - espocrm_data:/var/www/html/data
     labels:
-      # --- Traefik routing/SSL labels ---
       - "traefik.enable=true"
       - "traefik.http.routers.espocrm.rule=Host(`crm.aiappsy.com`)"
       - "traefik.http.routers.espocrm.entrypoints=websecure"
