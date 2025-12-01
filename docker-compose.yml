@@ -8,7 +8,7 @@ services:
     container_name: espocrm
     environment:
       - DB_HOST=mariadb
-      - DB_NAME=espocrm
+      - DB_NAME=mariadb
       - DB_USER=mariadb
       - DB_PASSWORD=TxUvPSc41d2GRorNKUaj7WusGNrvgabOEfJzf3HVTW2r3OmmpIuavSkmkKHgrrzl
       - DB_DRIVER=mysql
