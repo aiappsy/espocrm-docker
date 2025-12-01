@@ -1,35 +1,37 @@
-version: '3.8'
+version: "3.8"
 
 services:
   espocrm:
     image: espocrm/espocrm:latest
     container_name: espocrm-app
     environment:
-      DB_TYPE: pgsql
-      DB_DRIVER: pgsql
-      DB_HOST: postgres
-      DB_NAME: postgres
-      DB_USER: postgres
+      DB_TYPE: mysql
+      DB_DRIVER: pdo_mysql
+      DB_HOST: mariadb
+      DB_NAME: espocrm
+      DB_USER: espocrm
       DB_PASSWORD: Javielsker44@@
       DEFAULT_LANGUAGE: en_US
       TIMEZONE: UTC
+      # Set other EspoCRM settings here if desired
     depends_on:
-      - postgres
+      - mariadb
     ports:
-      - "8090:80"      # <--- Only this internal port is published, can be anything not in use (e.g., 10080)
+      - "8090:80"    # CHANGE if 8090 is not free
     volumes:
       - espocrm_data:/var/www/html/data
 
-  postgres:
-    image: postgres:16
-    container_name: postgres-db
+  mariadb:
+    image: mariadb:11
+    container_name: mariadb-db
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Javielsker44@@
+      MARIADB_ROOT_PASSWORD: Javielsker44@@
+      MARIADB_DATABASE: espocrm
+      MARIADB_USER: espocrm
+      MARIADB_PASSWORD: Javielsker44@@
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mariadb_data:/var/lib/mysql
 
 volumes:
   espocrm_data:
-  postgres_data:
+  mariadb_data:
