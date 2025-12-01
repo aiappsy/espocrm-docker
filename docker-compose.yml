@@ -7,17 +7,16 @@ services:
     environment:
       DB_TYPE: mysql
       DB_DRIVER: pdo_mysql
-      DB_HOST: mariadb
-      DB_NAME: espocrm
-      DB_USER: espocrm
+      DB_HOST: mariadb      # service name
+      DB_NAME: mariadb      # database name
+      DB_USER: mariadb      # db user
       DB_PASSWORD: Javielsker44@@
       DEFAULT_LANGUAGE: en_US
       TIMEZONE: UTC
-      # Set other EspoCRM settings here if desired
     depends_on:
       - mariadb
     ports:
-      - "8090:80"    # CHANGE if 8090 is not free
+      - "8090:80"    # change if port is not free
     volumes:
       - espocrm_data:/var/www/html/data
 
@@ -26,8 +25,8 @@ services:
     container_name: mariadb-db
     environment:
       MARIADB_ROOT_PASSWORD: Javielsker44@@
-      MARIADB_DATABASE: espocrm
-      MARIADB_USER: espocrm
+      MARIADB_DATABASE: mariadb
+      MARIADB_USER: mariadb
       MARIADB_PASSWORD: Javielsker44@@
     volumes:
       - mariadb_data:/var/lib/mysql
