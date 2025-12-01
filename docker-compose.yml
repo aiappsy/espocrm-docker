@@ -14,7 +14,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "8080:80"
+      - "8090:80"
     volumes:
       - espocrm_data:/var/www/html/data
 
