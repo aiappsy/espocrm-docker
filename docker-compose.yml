@@ -1,35 +1,35 @@
-version: "3.7"
+version: "3.8"
+
 services:
   espocrm:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: espocrm:latest
-    container_name: espocrm
+    image: espocrm/espocrm:latest
+    container_name: espocrm-app
     environment:
-      - DB_HOST=mariadb
-      - DB_NAME=mariadb
-      - DB_USER=mariadb
-      - DB_PASSWORD=TxUvPSc41d2GRorNKUaj7WusGNrvgabOEfJzf3HVTW2r3OmmpIuavSkmkKHgrrzl
-      - DB_DRIVER=mysql
-      - DEFAULT_LANGUAGE=en_US
-      - TIMEZONE=UTC
-    ports:
-      - "8090:80"  # Change 8090 if you want to use a different port!
+      DB_TYPE: pgsql
+      DB_HOST: postgres
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: Javielsker44@@
+      # Add other EspoCRM environment variables as needed
     depends_on:
-      - mariadb
-    volumes:
-      - ./data:/var/www/html/data
-
-  mariadb:
-    image: mariadb:10.6
-    container_name: mariadb
-    environment:
-      - MYSQL_ROOT_PASSWORD=supersecret
-      - MYSQL_DATABASE=espocrm
-      - MYSQL_USER=espocrm
-      - MYSQL_PASSWORD=espocrm_password
-    volumes:
-      - ./db-data:/var/lib/mysql
+      - postgres
     ports:
-      - "3306:3306"
+      - "8080:80"
+    volumes:
+      - espocrm_data:/var/www/html/data
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Javielsker44@@
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  espocrm_data:
+  postgres_data:
