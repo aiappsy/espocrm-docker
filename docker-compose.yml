@@ -10,7 +10,7 @@ services:
       - DB_HOST=mariadb
       - DB_NAME=espocrm
       - DB_USER=mariadb
-      - DB_PASSWORD=Javielsker44@@
+      - DB_PASSWORD=TxUvPSc41d2GRorNKUaj7WusGNrvgabOEfJzf3HVTW2r3OmmpIuavSkmkKHgrrzl
       - DB_DRIVER=mysql
       - DEFAULT_LANGUAGE=en_US
       - TIMEZONE=UTC
