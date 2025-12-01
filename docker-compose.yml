@@ -9,7 +9,7 @@ services:
     environment:
       - DB_HOST=mariadb
       - DB_NAME=espocrm
-      - DB_USER=espocrm
+      - DB_USER=mariadb
       - DB_PASSWORD=Javielsker44@@
       - DB_DRIVER=mysql
       - DEFAULT_LANGUAGE=en_US
