@@ -1,9 +1,10 @@
 FROM php:8.2-apache
 
-# Install required packages
+# Install required packages for PHP extensions
 RUN apt-get update && \
-    apt-get install -y libmariadb-dev git unzip && \
-    docker-php-ext-install pdo pdo_mysql
+    apt-get install -y libmariadb-dev git unzip libpng-dev libjpeg-dev libwebp-dev libfreetype6-dev libzip-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
+    docker-php-ext-install pdo pdo_mysql gd zip
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite
@@ -21,7 +22,7 @@ RUN chown -R www-data:www-data /var/www/html && \
     find . -type f -exec chmod 644 {} \; && \
     find . -type d -exec chmod 755 {} \;
 
-# Create persistent data subdirectories (still in image build)
+# Create persistent data subdirectories
 RUN mkdir -p ./data/upload ./data/logs ./data/cache
 
 # Add custom Apache config for EspoCRM
@@ -29,5 +30,5 @@ COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
 
-# THIS IS THE IMPORTANT FINAL LINE: Set correct permissions for data folder on every container start
+# Ensure permissions for data directory every time the container boots
 CMD ["bash", "-c", "chown -R www-data:www-data /var/www/html/data && find /var/www/html/data -type d -exec chmod 775 {} + && apache2-foreground"]
