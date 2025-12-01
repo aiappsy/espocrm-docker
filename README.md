@@ -5,7 +5,55 @@ This repository is the official Docker image for EspoCRM.
 Article map:
 
 - [Usage](#usage)
-- [Usage (only for development)](#usage-only-for-development)
+- [Usage (only for development)](# EspoCRM + PostgreSQL Docker Compose for Coolify
+
+This repository provides a ready-to-deploy stack for [EspoCRM](https://www.espocrm.com/) with PostgreSQL, designed for deployment in [Coolify](https://coolify.io/) or any Docker Compose platform.
+
+## Features
+- Instant PostgreSQL database (user: `postgres`, password: `Javielsker44@@`)
+- EspoCRM pre-configured to connect to database on start
+- Persistent volumes for database and EspoCRM app data
+- Web exposed at port 8090 (change if desired)
+
+## Usage
+
+1. **Clone this repo into your project folder.**
+2. **Deploy with Coolify:**
+   - Set "Build Pack" to "Docker Compose".
+   - Point to this repo and `docker-compose.yml`.
+   - No manual DB/app setup required!
+3. **After deploy:**
+   - Access EspoCRM at `http://your-server:8090/`
+   - Use these DB parameters in the EspoCRM installer (if required):
+     - **DB Type:** pgsql
+     - **DB Driver:** pgsql
+     - **DB Host:** postgres
+     - **DB Name:** postgres
+     - **DB User:** postgres
+     - **DB Password:** Javielsker44@@
+4. **To adjust DB credentials, change them in `docker-compose.yml` before first deploy.**
+
+## SSL/HTTPS (optional)
+- For SSL, add a reverse proxy (Traefik or NGINX) in `docker-compose.yml`
+- Or let Coolify manage domain and SSL if supported.
+
+---
+
+## Volumes
+All app and database data is stored in Docker named volumes for persistence.
+
+- EspoCRM data: `espocrm_data`
+- PostgreSQL data: `postgres_data`
+
+---
+
+## Troubleshooting
+
+- If EspoCRM cannot connect to Postgres, check container logs in Coolify.
+- If ports conflict, change the mapping in `docker-compose.yml`.
+- For advanced settings, refer to EspoCRM and PostgreSQL official docs.
+
+---#usage-only-for-development)
 - [Upgrading](#upgrading)
 - [Documentation](#documentation)
 
