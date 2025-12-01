@@ -1,25 +1,6 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  traefik:
-    image: traefik:v2.10
-    container_name: traefik
-    command:
-      - "--api.dashboard=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:18080"
-      - "--entrypoints.websecure.address=:18443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=crm@aiappsy.com"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-    ports:
-      - "18080:18080"
-      - "18443:18443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - traefik_letsencrypt:/letsencrypt
-
   espocrm:
     image: espocrm/espocrm:latest
     container_name: espocrm-app
@@ -34,14 +15,10 @@ services:
       TIMEZONE: UTC
     depends_on:
       - postgres
+    ports:
+      - "8090:80"      # <--- Only this internal port is published, can be anything not in use (e.g., 10080)
     volumes:
       - espocrm_data:/var/www/html/data
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.espocrm.rule=Host(`crm.aiappsy.com`)"
-      - "traefik.http.routers.espocrm.entrypoints=websecure"
-      - "traefik.http.routers.espocrm.tls.certresolver=myresolver"
-      - "traefik.http.services.espocrm.loadbalancer.server.port=80"
 
   postgres:
     image: postgres:16
@@ -56,4 +33,3 @@ services:
 volumes:
   espocrm_data:
   postgres_data:
-  traefik_letsencrypt:
